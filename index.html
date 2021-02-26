@@ -167,20 +167,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -212,6 +212,115 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://jinxxy.github.io/2021/02/26/ATOM%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Johnny Jin">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Johnny Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/26/ATOM%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">atATOM安装及配置</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-02-26 14:56:42 / 修改时间：15:09:30" itemprop="dateCreated datePublished" datetime="2021-02-26T14:56:42+08:00">2021-02-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Markdown/" itemprop="url" rel="index"><span itemprop="name">Markdown</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="下载安装atom"><a href="#下载安装atom" class="headerlink" title="下载安装atom"></a>下载安装atom</h1><p>下载安装Atom：<a target="_blank" rel="noopener" href="https://atom.io/">https://atom.io/</a></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="修改国内源"><a href="#修改国内源" class="headerlink" title="修改国内源"></a>修改国内源</h3><p>编辑 ~/.atom/.apmrc，添加 registry = <a target="_blank" rel="noopener" href="https://registry.npm.taobao.org/">https://registry.npm.taobao.org</a> 即可</p>
+<blockquote>
+<p>是 ~/.atom/.apmrc,没有的话就创建一个。<br>不是 ~/.atom/.apm/.apmrc，这个是 apm 自动管理的。</p>
+</blockquote>
+<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><ol>
+<li>增强预览(markdown-preview-plus)</li>
+</ol>
+<p>Atom自带的Markdown预览插件markdown-preview功能比较简单，markdown-preview-plus对其做了功能扩展和增强。</p>
+<ul>
+<li>支持预览实时渲染。(Ctrl + Shift + M)</li>
+<li>支持Latex公式。(Ctrl + Shift + X)<br>使用该插件前，需要先禁用markdown-preview。</li>
+</ul>
+<ol start="2">
+<li>同步滚动(markdown-scroll-sync)</li>
+</ol>
+<p>同步滚动是Markdown编辑器的必备功能，方便翻阅文档修改时能快速定位到预览的位置。<br>markdown-scroll-sync不仅支持同步滚动，在光标位置发生变更时也会同步滚动，这个功能在很多Markdown编辑器中不具备。</p>
+<ol start="3">
+<li>代码增强(language-markdown)</li>
+</ol>
+<p>一般的Markdown编辑器提供了代码着色等基本功能，language-markdown除了能给代码着色，还提供了快捷的代码片段生成等功能。</p>
+<ol start="4">
+<li>图片粘贴(markdown-image-paste)</li>
+</ol>
+<p>图片功能支持的好坏直接决定了我是否选择使用一个Markdown编辑器。也有不少编辑器和在线的图床绑定，但是这种方式受限于网络。虽然Markdown支持插入本地图片，但是每次插入新图片都是一堆重复操作：截图－命名－保存－插入。markdown-image-paste将这些操作一步完成：</p>
+<ul>
+<li>使用截图工具将图片复制到系统剪切板。</li>
+<li>在Markdown新起一行输入文件名。</li>
+<li>Ctrl + V 会自动把图片保存到Markdown文件相同目录下(因此要求Markdown文件应该先保存)，并命名为刚输入的文件名，同时在刚才输入文件名行处生成img标签。</li>
+</ul>
+<ol start="5">
+<li>表格编辑(markdown-table-editor)</li>
+</ol>
+<p>一直对Markdown的table语法很无爱，直到遇到了markdown-table-editor，这操作效率简直炸了！文字已经不能表达我的激动之情了，直接看图吧。</p>
+<p>6.pdf导出(markdown-themeable-pdf、pdf-view)</p>
+<p>不少Markdown编辑器都会提供pdf导出功能，甚至将其作为收费功能。而Atom的markdown-themeable-pdf、pdf-view插件可以轻松实现pdf导出和预览功能。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
