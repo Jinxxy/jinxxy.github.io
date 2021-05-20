@@ -23,22 +23,23 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"jinxxy.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
-<meta name="description" content="Linux SSH 免密登录失败问题设置ssh免密码登陆的时候，发现有一些机器设置不生效。有一些机器正常。 查找原因确认配置文件都OK的情况下，查看sshd的日志信息。1tail -n 10 &#x2F;var&#x2F;log&#x2F;secure 输出结果为：123456789Feb 25 10:29:26 dhtest01 polkitd[642]: Registered Authentication Agent fo">
+<meta name="description" content="环境：CentOS7MySQL5.7  MySQL忘记root密码导致无法登录MySQL，无法登陆就不能修改密码，所以要绕过MySQL的用户验证。 修改MySQL配置文件，跳过用户验证1234[root@mysql_server ~]# vim &#x2F;etc&#x2F;my.cnf# 在配置文件中[mysqld]后添加[mysqld]skip-grant-tables 重启mysql服务[root@mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux SSH远程登录失败">
-<meta property="og:url" content="https://jinxxy.github.io/2021/02/25/Linux-SSH%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/index.html">
+<meta property="og:title" content="Centos7重置Mysql5.7的ROOT密码">
+<meta property="og:url" content="https://jinxxy.github.io/2021/03/26/Reset-MysqlPassword/index.html">
 <meta property="og:site_name" content="Johnny Hexo">
-<meta property="og:description" content="Linux SSH 免密登录失败问题设置ssh免密码登陆的时候，发现有一些机器设置不生效。有一些机器正常。 查找原因确认配置文件都OK的情况下，查看sshd的日志信息。1tail -n 10 &#x2F;var&#x2F;log&#x2F;secure 输出结果为：123456789Feb 25 10:29:26 dhtest01 polkitd[642]: Registered Authentication Agent fo">
+<meta property="og:description" content="环境：CentOS7MySQL5.7  MySQL忘记root密码导致无法登录MySQL，无法登陆就不能修改密码，所以要绕过MySQL的用户验证。 修改MySQL配置文件，跳过用户验证1234[root@mysql_server ~]# vim &#x2F;etc&#x2F;my.cnf# 在配置文件中[mysqld]后添加[mysqld]skip-grant-tables 重启mysql服务[root@mysql">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-02-25T02:52:09.000Z">
-<meta property="article:modified_time" content="2021-02-25T03:38:55.646Z">
+<meta property="article:published_time" content="2021-03-26T06:31:42.000Z">
+<meta property="article:modified_time" content="2021-05-20T09:20:59.146Z">
 <meta property="article:author" content="Johnny Jin">
 <meta property="article:tag" content="Linux">
-<meta property="article:tag" content="ssh">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="Centos">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://jinxxy.github.io/2021/02/25/Linux-SSH%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/">
+<link rel="canonical" href="https://jinxxy.github.io/2021/03/26/Reset-MysqlPassword/">
 
 
 <script class="page-configurations">
@@ -50,7 +51,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<title>Linux SSH远程登录失败 | Johnny Hexo</title>
+<title>Centos7重置Mysql5.7的ROOT密码 | Johnny Hexo</title>
   
 
 
@@ -160,7 +161,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-SSH-%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5"><span class="nav-number">1.</span> <span class="nav-text">Linux SSH 免密登录失败</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.2.</span> <span class="nav-text">查找原因</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%83%BDOK%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E6%9F%A5%E7%9C%8Bsshd%E7%9A%84%E6%97%A5%E5%BF%97%E4%BF%A1%E6%81%AF%E3%80%82"><span class="nav-number">1.2.1.</span> <span class="nav-text">确认配置文件都OK的情况下，查看sshd的日志信息。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C%E4%B8%BA%EF%BC%9A"><span class="nav-number">1.2.2.</span> <span class="nav-text">输出结果为：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.3.</span> <span class="nav-text">原因</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9MySQL%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%8C%E8%B7%B3%E8%BF%87%E7%94%A8%E6%88%B7%E9%AA%8C%E8%AF%81"><span class="nav-number">1.</span> <span class="nav-text">修改MySQL配置文件，跳过用户验证</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%90%AFmysql%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.1.</span> <span class="nav-text">重启mysql服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5mysql%EF%BC%8C%E4%BF%AE%E6%94%B9root%E5%AF%86%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">进入mysql，修改root密码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%86MySQL%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9%E5%9B%9E%E6%9D%A5"><span class="nav-number">3.</span> <span class="nav-text">将MySQL配置文件修改回来</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%90%AFmysql%E6%9C%8D%E5%8A%A1-1"><span class="nav-number">3.1.</span> <span class="nav-text">重启mysql服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95MySQL"><span class="nav-number">4.</span> <span class="nav-text">使用密码登录MySQL</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -229,7 +230,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://jinxxy.github.io/2021/02/25/Linux-SSH%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/">
+    <link itemprop="mainEntityOfPage" href="https://jinxxy.github.io/2021/03/26/Reset-MysqlPassword/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -242,7 +243,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Linux SSH远程登录失败
+          Centos7重置Mysql5.7的ROOT密码
         </h1>
 
         <div class="post-meta-container">
@@ -252,17 +253,23 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2021-02-25 10:52:09 / 修改时间：11:38:55" itemprop="dateCreated datePublished" datetime="2021-02-25T10:52:09+08:00">2021-02-25</time>
+      <time title="创建时间：2021-03-26 14:31:42" itemprop="dateCreated datePublished" datetime="2021-03-26T14:31:42+08:00">2021-03-26</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-05-20 17:20:59" itemprop="dateModified" datetime="2021-05-20T17:20:59+08:00">2021-05-20</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+          <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
         </span>
     </span>
 
@@ -276,14 +283,19 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="Linux-SSH-免密登录失败"><a href="#Linux-SSH-免密登录失败" class="headerlink" title="Linux SSH 免密登录失败"></a>Linux SSH 免密登录失败</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>设置ssh免密码登陆的时候，发现有一些机器设置不生效。有一些机器正常。</p>
-<h2 id="查找原因"><a href="#查找原因" class="headerlink" title="查找原因"></a>查找原因</h2><h3 id="确认配置文件都OK的情况下，查看sshd的日志信息。"><a href="#确认配置文件都OK的情况下，查看sshd的日志信息。" class="headerlink" title="确认配置文件都OK的情况下，查看sshd的日志信息。"></a>确认配置文件都OK的情况下，查看sshd的日志信息。</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -n 10 /var/log/secure</span><br></pre></td></tr></table></figure>
-<h3 id="输出结果为："><a href="#输出结果为：" class="headerlink" title="输出结果为："></a>输出结果为：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Feb 25 10:29:26 dhtest01 polkitd[642]: Registered Authentication Agent for unix-process:17666:15899251 (system bus name :1.6669 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.utf8)</span><br><span class="line">Feb 25 10:29:26 dhtest01 sshd[17499]: Received signal 15; terminating.</span><br><span class="line">Feb 25 10:29:26 dhtest01 sshd[17691]: Server listening on 0.0.0.0 port 10000.</span><br><span class="line">Feb 25 10:29:26 dhtest01 polkitd[642]: Unregistered Authentication Agent for unix-process:17666:15899251 (system bus name :1.6669, object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.utf8) (disconnected from bus)</span><br><span class="line">Feb 25 10:29:32 dhtest01 sshd[17703]: reprocess config line 49: Deprecated option RSAAuthentication</span><br><span class="line">Feb 25 10:29:32 dhtest01 sshd[17703]: Authentication refused: bad ownership or modes for file /home/diyi/.ssh/authorized_keys</span><br><span class="line">Feb 25 10:29:35 dhtest01 sshd[17703]: Authentication refused: bad ownership or modes for file /home/diyi/.ssh/authorized_keys</span><br><span class="line">Feb 25 10:29:41 dhtest01 sshd[17703]: Authentication refused: bad ownership or modes for file /home/diyi/.ssh/authorized_keys</span><br><span class="line">Feb 25 10:29:45 dhtest01 sshd[17703]: error: Received disconnect from 116.233.16.177 port 2076:0:  [preauth]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>sshd[17703]: Authentication refused: bad ownership or modes for file /home/diyi/.ssh/</p>
+        <blockquote>
+<p>环境：<br>CentOS7<br>MySQL5.7</p>
 </blockquote>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>sshd为了安全，对属主的目录和文件权限有所要求。如果权限不对，则ssh的免密码登陆不生效。<br>用户目录权限为 755 或者 700，就是不能是77x。<br>.ssh目录权限一般为755或者700。<br>rsa_id.pub 及authorized_keys权限一般为644<br>rsa_id权限必须为600<br>解决方法<br>修改/home/diyi/.ssh 目录的权限</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 700 ~/.ssh/</span><br></pre></td></tr></table></figure>
+<p>MySQL忘记root密码导致无法登录MySQL，无法登陆就不能修改密码，所以要绕过MySQL的用户验证。</p>
+<h1 id="修改MySQL配置文件，跳过用户验证"><a href="#修改MySQL配置文件，跳过用户验证" class="headerlink" title="修改MySQL配置文件，跳过用户验证"></a>修改MySQL配置文件，跳过用户验证</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_server ~]# vim /etc/my.cnf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 在配置文件中[mysqld]后添加</span></span><br><span class="line">[mysqld]</span><br><span class="line">skip-grant-tables</span><br></pre></td></tr></table></figure>
+<h2 id="重启mysql服务"><a href="#重启mysql服务" class="headerlink" title="重启mysql服务"></a>重启mysql服务</h2><p><code>[root@mysql_server ~]# systemctl restart mysqld.service</code></p>
+<h1 id="进入mysql，修改root密码"><a href="#进入mysql，修改root密码" class="headerlink" title="进入mysql，修改root密码"></a>进入mysql，修改root密码</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_server ~]# mysql</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> use mysql;</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> update mysql.user <span class="built_in">set</span> authentication_string=password(<span class="string">&#x27;mysql12345&#x27;</span>) <span class="built_in">where</span> user = <span class="string">&#x27;root&#x27;</span>;</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> flush privileges;</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> quit</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="将MySQL配置文件修改回来"><a href="#将MySQL配置文件修改回来" class="headerlink" title="将MySQL配置文件修改回来"></a>将MySQL配置文件修改回来</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_server ~]# vim /etc/my.cnf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 在配置文件中[mysqld]后添加</span></span><br><span class="line">[mysqld]</span><br><span class="line"><span class="meta">#</span><span class="bash"> skip-grant-tables</span></span><br></pre></td></tr></table></figure>
+<h2 id="重启mysql服务-1"><a href="#重启mysql服务-1" class="headerlink" title="重启mysql服务"></a>重启mysql服务</h2><p><code>[root@mysql_server ~]# systemctl restart mysqld.service</code></p>
+<h1 id="使用密码登录MySQL"><a href="#使用密码登录MySQL" class="headerlink" title="使用密码登录MySQL"></a>使用密码登录MySQL</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_server ~]# mysql -uroot -pmysql12345</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show databases;</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> quit</span></span><br></pre></td></tr></table></figure>
+
+<p>密码修改完成！</p>
 
     </div>
 
@@ -301,7 +313,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://jinxxy.github.io/2021/02/25/Linux-SSH%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/" title="Linux SSH远程登录失败">https://jinxxy.github.io/2021/02/25/Linux-SSH远程登录失败/</a>
+      <a href="https://jinxxy.github.io/2021/03/26/Reset-MysqlPassword/" title="Centos7重置Mysql5.7的ROOT密码">https://jinxxy.github.io/2021/03/26/Reset-MysqlPassword/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -311,20 +323,21 @@
 
           <div class="post-tags">
               <a href="/tags/Linux/" rel="tag"># Linux</a>
-              <a href="/tags/ssh/" rel="tag"># ssh</a>
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+              <a href="/tags/Centos/" rel="tag"># Centos</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/02/23/hello-world/" rel="prev" title="Hello World">
-                  <i class="fa fa-chevron-left"></i> Hello World
+                <a href="/2021/02/26/ATOM%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE/" rel="prev" title="ATOM安装及配置">
+                  <i class="fa fa-chevron-left"></i> ATOM安装及配置
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/02/26/ATOM%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE/" rel="next" title="ATOM安装及配置">
-                  ATOM安装及配置 <i class="fa fa-chevron-right"></i>
+                <a href="/2021/03/26/ELK/" rel="next" title="Docker部署ELK">
+                  Docker部署ELK <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
